@@ -46,6 +46,8 @@ private:
 
 	void loadConf();
 
+	void loadResources();
+
 	const CCString* langByKey(const char * key);
 
 	const CCString* resoByKey(const char * key);

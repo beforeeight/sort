@@ -24,6 +24,7 @@ LocalResources::LocalResources() {
 	}
 	prepareResPath();
 	loadConf();
+	loadResources();
 }
 
 LocalResources::~LocalResources() {
@@ -50,14 +51,16 @@ const CCString* LocalResources::valueByKey(const char * key) {
 		return value;
 	} else if ((value = this->resoByKey(key))) {
 		return value;
+	} else if ((value = this->confByKey(key))) {
+		return value;
 	} else {
-		return this->confByKey(key);
+		return CCString::create("");
 	}
 }
 
 const CCString* LocalResources::confByKey(const char * key) {
 	if (conf) {
-		return this->conf->valueForKey(key);
+		return dynamic_cast<CCString*>(conf->objectForKey(key));
 	} else {
 		return NULL;
 	}
@@ -65,7 +68,7 @@ const CCString* LocalResources::confByKey(const char * key) {
 
 const CCString* LocalResources::langByKey(const char * key) {
 	if (conf_lang) {
-		return this->conf_lang->valueForKey(key);
+		return dynamic_cast<CCString*>(conf_lang->objectForKey(key));
 	} else {
 		return NULL;
 	}
@@ -73,7 +76,7 @@ const CCString* LocalResources::langByKey(const char * key) {
 
 const CCString* LocalResources::resoByKey(const char * key) {
 	if (conf_resolution) {
-		return this->conf_resolution->valueForKey(key);
+		return dynamic_cast<CCString*>(conf_resolution->objectForKey(key));
 	} else {
 		return NULL;
 	}
@@ -106,7 +109,9 @@ void LocalResources::prepareResPath() {
 
 void LocalResources::loadConf() {
 	/*-- 加载总配置 --*/
-	if (CCFileUtils::sharedFileUtils()->isFileExist("configuration.plist")) {
+	if (CCFileUtils::sharedFileUtils()->isFileExist(
+			CCFileUtils::sharedFileUtils()->fullPathForFilename(
+					"configuration.plist"))) {
 		conf = CCDictionary::createWithContentsOfFile("configuration.plist");
 		if (conf) {
 			CC_SAFE_RETAIN(conf);
@@ -116,7 +121,9 @@ void LocalResources::loadConf() {
 	}
 
 	/*-- 语言配置 --*/
-	if (CCFileUtils::sharedFileUtils()->isFileExist("language.plist")) {
+	if (CCFileUtils::sharedFileUtils()->isFileExist(
+			CCFileUtils::sharedFileUtils()->fullPathForFilename(
+					"language.plist"))) {
 		conf_lang = CCDictionary::createWithContentsOfFile("language.plist");
 		if (conf_lang) {
 			CC_SAFE_RETAIN(conf_lang);
@@ -126,7 +133,9 @@ void LocalResources::loadConf() {
 	}
 
 	/*-- 加载分辨率配置 --*/
-	if (CCFileUtils::sharedFileUtils()->isFileExist("resolution.plist")) {
+	if (CCFileUtils::sharedFileUtils()->isFileExist(
+			CCFileUtils::sharedFileUtils()->fullPathForFilename(
+					"resolution.plist"))) {
 		conf_resolution = CCDictionary::createWithContentsOfFile(
 				"resolution.plist");
 		if (conf_resolution) {
@@ -137,6 +146,19 @@ void LocalResources::loadConf() {
 	}
 }
 
+void LocalResources::loadResources() {
+	/*-- 文字 --*/
+	CCMenuItemFont::setFontName(this->valueByKey("font")->getCString());
+	CCMenuItemFont::setFontSize(this->valueByKey("font_size")->intValue());
+
+	/*-- 图片 --*/
+	//CCTextureCache::sharedTextureCache()->addImage(("background.png"));
+	/*-- 声音 --*/
+	//SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
+	//SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
+	/*-- 动画 --*/
+
+}
 Context::Context() {
 }
 

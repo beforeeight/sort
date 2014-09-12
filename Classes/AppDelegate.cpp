@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "Resources.h"
+#include "Menu.h"
 
 USING_NS_CC;
 
@@ -24,6 +24,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	// set FPS. the default value is 1.0/60 if you don't call this
 	pDirector->setAnimationInterval(1.0 / 60);
 
+	pDirector->runWithScene(MenuLayer::scene());
 	return true;
 }
 
