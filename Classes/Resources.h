@@ -67,6 +67,24 @@ public:
 
 	virtual void load();
 
+	ccColor3B getFontColor();
+
+	bool isSound();
+
+	void playBgMusic();
+
+	void onSound();
+
+	void offSound();
+
+	bool firstRun();
+private:
+	bool sound;
+
+	bool first;
+
+	unsigned int score;
+
 };
 
 #define LOCAL_RESOURCES LocalResources::sharedResources()

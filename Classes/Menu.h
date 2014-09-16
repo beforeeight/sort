@@ -33,8 +33,6 @@ private:
 	void onMoreItem(CCObject *object);
 
 	void onFeedbackItem(CCObject *object);
-
-	void enableButton(CCNode *p_sender);
 };
 
 #endif /* MENU_H_ */

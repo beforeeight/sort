@@ -151,22 +151,82 @@ void LocalResources::loadResources() {
 	CCMenuItemFont::setFontName(this->valueByKey("font")->getCString());
 	CCMenuItemFont::setFontSize(this->valueByKey("font_size")->intValue());
 
+	CCLog("font size %d", this->valueByKey("font_size")->intValue());
 	/*-- 图片 --*/
-	//CCTextureCache::sharedTextureCache()->addImage(("background.png"));
+	CCTextureCache::sharedTextureCache()->addImage(("bg_back.png"));
+	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_on.png"));
+	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_off.png"));
+
 	/*-- 声音 --*/
 	//SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
 	//SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
 	/*-- 动画 --*/
 
 }
-Context::Context() {
+
+Context::Context() :
+		sound(true) {
+	load();
 }
 
 Context::~Context() {
 }
 
+Context * Context::sharedContext() {
+	static Context* res = NULL;
+	if (!res) {
+		res = new Context();
+		res->playBgMusic();
+	}
+	return res;
+}
+
 void Context::save() {
+	CCUserDefault::sharedUserDefault()->setBoolForKey("sound", this->sound);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("score", this->score);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("first", this->first);
+	CCUserDefault::sharedUserDefault()->flush();
 }
 
 void Context::load() {
+	this->first = CCUserDefault::sharedUserDefault()->getBoolForKey("first",
+			true);
+	this->sound = CCUserDefault::sharedUserDefault()->getBoolForKey("sound",
+			true);
+	this->score = CCUserDefault::sharedUserDefault()->getIntegerForKey("score",
+			0);
+}
+
+void Context::playBgMusic() {
+	if (this->isSound()
+			&& !SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying()) {
+		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+	}
+}
+
+bool Context::isSound() {
+	return this->sound;
+}
+
+void Context::onSound() {
+	SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+	this->sound = true;
+	save();
+}
+
+void Context::offSound() {
+	SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+	this->sound = false;
+	save();
+}
+
+bool Context::firstRun() {
+	bool f = first;
+	this->first = false;
+	save();
+	return f;
+}
+
+ccColor3B Context::getFontColor() {
+	return ccc3(LOCAL_RESOURCES->valueByKey("font_color_r")->intValue(),LOCAL_RESOURCES->valueByKey("font_color_g")->intValue(),LOCAL_RESOURCES->valueByKey("font_color_b")->intValue());
 }
