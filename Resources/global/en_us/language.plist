@@ -4,5 +4,32 @@
     <dict>
         <key>i18n_start</key>
         <string>Start Game</string>
+        
+		<key>i18n_ranking</key>
+        <string>Ranking</string>
+        
+        <key>i18n_more</key>
+        <string>More Games</string>
+        
+        <key>i18n_feedback</key>
+        <string>Feedback</string>
+        
+        <key>i18n_resume</key>
+        <string>Resume</string>
+        
+        <key>i18n_back</key>
+        <string>Back Menu</string>
+        
+        <key>i18n_score</key>
+        <string>Score</string>
+        
+        <key>i18n_highscore</key>
+        <string>High Score</string>
+        
+        <key>i18n_again</key>
+        <string>Try Again</string>
+        
+        <key>i18n_share</key>
+        <string>Share</string>
     </dict>
 </plist>
