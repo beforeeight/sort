@@ -21,6 +21,14 @@ public:
 	CREATE_FUNC (FinishLayer)
 
 	static CCScene * scene();
+
+private:
+
+	void onAgainItem(CCObject *object);
+
+	void onShareItem(CCObject *object);
+
+	void onBackItem(CCObject *object);
 };
 
 #endif /* FINISHSCENE_H_ */

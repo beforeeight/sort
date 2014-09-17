@@ -17,8 +17,8 @@ typedef struct tagResource {
 	char directory[100];
 } Resource;
 
-extern const Resource smallResource;
-extern const Resource largeResource;
+extern const Resource iphoneResource;
+extern const Resource ipadResource;
 
 class LocalResources {
 
@@ -67,9 +67,9 @@ public:
 
 	virtual void load();
 
-	ccColor3B getFontColor();
+	ccColor3B getFontColor() const;
 
-	bool isSound();
+	bool isSound() const;
 
 	void playBgMusic();
 
@@ -78,6 +78,16 @@ public:
 	void offSound();
 
 	bool firstRun();
+
+	unsigned int increaseScore();
+
+	void clearScore();
+
+	unsigned int getScore() const;
+
+	unsigned int getHighScore() const;
+
+	bool isNewRecord() const;
 private:
 	bool sound;
 
@@ -85,11 +95,16 @@ private:
 
 	unsigned int score;
 
+	bool newrecord;
+
+	unsigned int highScore;
 };
 
 #define LOCAL_RESOURCES LocalResources::sharedResources()
 
 #define LOCAL_RESOLUTION LocalResources::sharedResources()->designResolutionSize()
+
+#define LOCAL_CONTEXT Context::sharedContext()
 
 #define ccpp(__X__,__Y__) cocos2d::CCPointMake(((float)(__X__))*LOCAL_RESOLUTION.width, ((float)(__Y__))*LOCAL_RESOLUTION.height)
 

@@ -11,16 +11,18 @@
 using namespace std;
 using namespace CocosDenshion;
 
-const Resource smallResource = { cocos2d::CCSizeMake(640, 1136), "iphone" };
-const Resource largeResource = { cocos2d::CCSizeMake(1536, 2048), "ipad" };
+const Resource iphoneResource = { cocos2d::CCSizeMake(640, 1136), "iphone" };
+const Resource ipadResource = { cocos2d::CCSizeMake(640, 960), "ipad" };
+
+#define ASPECT_RATIO (640.0f/960.f+640.0f/1136.0f)/2
 
 LocalResources::LocalResources() {
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	CCSize frameSize = pEGLView->getFrameSize();
-	if (frameSize.height >= largeResource.size.height) {
-		resource = largeResource;
+	if (frameSize.width / frameSize.height > ASPECT_RATIO) {
+		resource = ipadResource;
 	} else {
-		resource = smallResource;
+		resource = iphoneResource;
 	}
 	prepareResPath();
 	loadConf();
@@ -165,7 +167,7 @@ void LocalResources::loadResources() {
 }
 
 Context::Context() :
-		sound(true) {
+		score(0), newrecord(false) {
 	load();
 }
 
@@ -183,7 +185,8 @@ Context * Context::sharedContext() {
 
 void Context::save() {
 	CCUserDefault::sharedUserDefault()->setBoolForKey("sound", this->sound);
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("score", this->score);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("highScore",
+			this->highScore);
 	CCUserDefault::sharedUserDefault()->setIntegerForKey("first", this->first);
 	CCUserDefault::sharedUserDefault()->flush();
 }
@@ -193,8 +196,8 @@ void Context::load() {
 			true);
 	this->sound = CCUserDefault::sharedUserDefault()->getBoolForKey("sound",
 			true);
-	this->score = CCUserDefault::sharedUserDefault()->getIntegerForKey("score",
-			0);
+	this->highScore = CCUserDefault::sharedUserDefault()->getIntegerForKey(
+			"highScore", 0);
 }
 
 void Context::playBgMusic() {
@@ -204,7 +207,7 @@ void Context::playBgMusic() {
 	}
 }
 
-bool Context::isSound() {
+bool Context::isSound() const {
 	return this->sound;
 }
 
@@ -227,6 +230,32 @@ bool Context::firstRun() {
 	return f;
 }
 
-ccColor3B Context::getFontColor() {
+ccColor3B Context::getFontColor() const {
 	return ccc3(LOCAL_RESOURCES->valueByKey("font_color_r")->intValue(),LOCAL_RESOURCES->valueByKey("font_color_g")->intValue(),LOCAL_RESOURCES->valueByKey("font_color_b")->intValue());
+}
+
+unsigned int Context::increaseScore() {
+	score++;
+	if (score > highScore) {
+		highScore = score;
+		newrecord = true;
+	}
+	return this->score;
+}
+
+void Context::clearScore() {
+	score = 0;
+	newrecord = true;
+}
+
+unsigned int Context::getScore() const {
+	return this->score;
+}
+
+unsigned int Context::getHighScore() const {
+	return this->highScore;
+}
+
+bool Context::isNewRecord() const {
+	return this->newrecord;
 }

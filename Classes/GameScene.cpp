@@ -28,6 +28,7 @@ GameLayer::~GameLayer() {
 
 bool GameLayer::init() {
 	if (CCLayer::init()) {
+		LOCAL_CONTEXT->clearScore();
 		this->setTouchMode(kCCTouchesOneByOne);
 		this->setTouchEnabled(true);
 		this->scheduleUpdate();
