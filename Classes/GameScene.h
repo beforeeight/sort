@@ -10,6 +10,8 @@
 
 #include "Resources.h"
 
+#define ITEM_NUM 5
+
 class GameLayer: public CCLayer {
 public:
 	GameLayer();
@@ -27,6 +29,12 @@ public:
 private:
 	bool running;
 
+	CCSprite * item[ITEM_NUM + 1];
+
+	void moveForward();
+
+	void initPosition();
+
 	void onPauseItem(CCObject *object);
 
 	void onResumeItem(CCObject *object);
@@ -36,6 +44,10 @@ private:
 	CCLayer * createPauseButtonLayer();
 
 	void createPauseLayer();
+
+	CCSprite* createNewItem();
+
+	void enable();
 };
 
 #endif /* GAMESCENE_H_ */
