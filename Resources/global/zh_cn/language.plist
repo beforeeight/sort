@@ -2,5 +2,34 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">  
 <plist version="1.0">  
     <dict>
+        <key>i18n_start</key>
+        <string>开始游戏</string>
+        
+		<key>i18n_ranking</key>
+        <string>排行榜</string>
+        
+        <key>i18n_more</key>
+        <string>更多游戏</string>
+        
+        <key>i18n_feedback</key>
+        <string>意见反馈</string>
+        
+        <key>i18n_resume</key>
+        <string>继续游戏</string>
+        
+        <key>i18n_back</key>
+        <string>返回菜单</string>
+        
+        <key>i18n_score</key>
+        <string>当前分数：</string>
+        
+        <key>i18n_highscore</key>
+        <string>最高分数：</string>
+        
+        <key>i18n_again</key>
+        <string>再玩一次</string>
+        
+        <key>i18n_share</key>
+        <string>分享</string>
     </dict>
 </plist>

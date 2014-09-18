@@ -21,10 +21,10 @@
         <string>Back Menu</string>
         
         <key>i18n_score</key>
-        <string>Score</string>
+        <string>Score:</string>
         
         <key>i18n_highscore</key>
-        <string>High Score</string>
+        <string>High Score:</string>
         
         <key>i18n_again</key>
         <string>Try Again</string>
