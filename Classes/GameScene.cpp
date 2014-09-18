@@ -14,15 +14,12 @@
 #define TAG_LAYER_GAME 0
 #define TAG_LAYER_PAUSE 1
 #define TAG_SCORE 3
+#define TAG_LAYER_HELP 4
 
-GameLayer::GameLayer() {
+GameLayer::GameLayer() :
+		running(true) {
 	timer = TimerSprite::create();
 	CC_SAFE_RETAIN(timer);
-	if (Context::sharedContext()->firstRun()) {
-		running = false;
-	} else {
-		running = true;
-	}
 }
 
 GameLayer::~GameLayer() {
@@ -65,6 +62,12 @@ bool GameLayer::init() {
 
 		/*-- 放瓶子 --*/
 		initPosition();
+
+		if (LOCAL_CONTEXT->isFirstRun()) {
+			this->createHelpLayer();
+		} else {
+			timer->start();
+		}
 		return true;
 
 	} else {
@@ -120,6 +123,11 @@ void GameLayer::mistake(float offset) {
 }
 
 bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
+	if (LOCAL_CONTEXT->firstRun()) {
+		this->removeHelpLayer();
+		return false;
+	}
+
 	if (running) {
 		CCSprite *lastItem = items[0];
 		long itemnum = (long) lastItem->getUserData();
@@ -150,16 +158,20 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 void GameLayer::onPauseItem(CCObject *object) {
 	if (running) {
 		this->running = false;
+		timer->pause();
 		effect::clickButton((CCMenuItem*) object);
 		createPauseLayer();
 	}
 }
 
 void GameLayer::onResumeItem(CCObject *object) {
-	effect::clickButton((CCMenuItem*) object);
-	CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(
-	TAG_LAYER_PAUSE);
-	this->running = true;
+	if (!running) {
+		effect::clickButton((CCMenuItem*) object);
+		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(
+		TAG_LAYER_PAUSE);
+		timer->resume();
+		this->running = true;
+	}
 }
 
 void GameLayer::onBackItem(CCObject *object) {
@@ -169,7 +181,7 @@ void GameLayer::onBackItem(CCObject *object) {
 
 CCLayer * GameLayer::createPauseButtonLayer() {
 	CCMenu *layer = CCMenu::create();
-//暂停
+	//暂停
 	CCMenuItemImage *pausebg = CCMenuItemImage::create(("btn_small.png"),
 			("btn_small.png"));
 	CCSprite *pausetxt = CCSprite::create("btn_pause.png");
@@ -183,6 +195,24 @@ CCLayer * GameLayer::createPauseButtonLayer() {
 	pausebg->addChild(pausetxt);
 	layer->addChild(pausebg);
 	return layer;
+}
+
+void GameLayer::createHelpLayer() {
+	CCLayer *layer = CCLayer::create();
+	CCSprite *left = CCSprite::create("help_left.png");
+	left->setAnchorPoint(ccp(0.5, 0));
+	left->setPosition(ccpp(-0.33, -0.345));
+	CCSprite *right = CCSprite::create("help_right.png");
+	right->setAnchorPoint(ccp(0.5, 0));
+	right->setPosition(ccpp(0.33, -0.345));
+	layer->addChild(left);
+	layer->addChild(right);
+	this->addChild(layer, 0, TAG_LAYER_HELP);
+}
+
+void GameLayer::removeHelpLayer() {
+	this->removeChildByTag(TAG_LAYER_HELP);
+	timer->start();
 }
 
 void GameLayer::createPauseLayer() {
@@ -292,7 +322,7 @@ void GameLayer::gameover() {
 
 /*-- 计时器 --*/
 TimerSprite::TimerSprite() {
-	reset();
+	initTimer();
 }
 
 TimerSprite::~TimerSprite() {
@@ -309,8 +339,7 @@ bool TimerSprite::init() {
 	}
 }
 
-void TimerSprite::reset() {
-	this->unscheduleAllSelectors();
+void TimerSprite::initTimer() {
 	int score = LOCAL_CONTEXT->getScore();
 	if (score <= 30) {
 		this->time = 5;
@@ -321,7 +350,24 @@ void TimerSprite::reset() {
 	} else {
 		this->time = 2;
 	}
+}
+
+void TimerSprite::reset() {
+	this->unscheduleAllSelectors();
+	initTimer();
 	this->schedule(schedule_selector(TimerSprite::decrease), 1.0f, time, 1.0f);
+}
+
+void TimerSprite::start() {
+	reset();
+}
+
+void TimerSprite::resume() {
+	this->resumeSchedulerAndActions();
+}
+
+void TimerSprite::pause() {
+	this->pauseSchedulerAndActions();
 }
 
 void TimerSprite::decrease() {

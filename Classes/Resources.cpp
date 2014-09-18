@@ -194,6 +194,7 @@ void Context::save() {
 void Context::load() {
 	this->first = CCUserDefault::sharedUserDefault()->getBoolForKey("first",
 			true);
+	this->first = true;
 	this->sound = CCUserDefault::sharedUserDefault()->getBoolForKey("sound",
 			true);
 	this->highScore = CCUserDefault::sharedUserDefault()->getIntegerForKey(
@@ -223,11 +224,18 @@ void Context::offSound() {
 	save();
 }
 
+bool Context::isFirstRun() const {
+	return first;
+}
+
 bool Context::firstRun() {
-	bool f = first;
-	this->first = false;
-	save();
-	return f;
+	if (first) {
+		this->first = false;
+		save();
+		return true;
+	} else {
+		return false;
+	}
 }
 
 ccColor3B Context::getFontColor() const {

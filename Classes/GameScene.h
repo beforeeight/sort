@@ -24,6 +24,12 @@ public:
 	void reset();
 
 	void setTarget(CCObject * m_listener, SEL_CallFunc m_callfunc);
+
+	void start();
+
+	void resume();
+
+	void pause();
 private:
 	unsigned int time;
 
@@ -32,6 +38,7 @@ private:
 	SEL_CallFunc m_callfunc;
 
 	void decrease();
+	void initTimer();
 };
 
 class GameLayer: public CCLayer {
@@ -69,6 +76,10 @@ private:
 
 	CCLayer * createPauseButtonLayer();
 
+	void createHelpLayer();
+
+	void removeHelpLayer();
+
 	void createPauseLayer();
 
 	CCSprite* createNewItem();
@@ -82,6 +93,7 @@ private:
 	void correct(float offset);
 
 	void mistake(float offset);
+
 };
 
 #endif /* GAMESCENE_H_ */

@@ -77,6 +77,8 @@ public:
 
 	void offSound();
 
+	bool isFirstRun() const;
+
 	bool firstRun();
 
 	unsigned int increaseScore();
