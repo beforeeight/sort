@@ -6,6 +6,9 @@
         <string>Verdana-Bold</string>
         
         <key>font_size</key>
+        <string>30</string>
+        
+        <key>font_size_time</key>
         <string>20</string>
         
         <key>font_color_r</key>
