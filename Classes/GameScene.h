@@ -11,6 +11,28 @@
 #include "Resources.h"
 
 #define ITEM_NUM 5
+class TimerSprite: public CCLabelTTF {
+public:
+	TimerSprite();
+
+	virtual ~TimerSprite();
+
+	virtual bool init();
+
+	CREATE_FUNC (TimerSprite)
+
+	void reset();
+
+	void setTarget(CCObject * m_listener, SEL_CallFunc m_callfunc);
+private:
+	unsigned int time;
+
+	CCObject * m_listener;
+
+	SEL_CallFunc m_callfunc;
+
+	void decrease();
+};
 
 class GameLayer: public CCLayer {
 public:
@@ -29,7 +51,11 @@ public:
 private:
 	bool running;
 
-	CCSprite * item[ITEM_NUM + 1];
+	CCSprite * items[ITEM_NUM + 1];
+
+	CCSprite * blocks[ITEM_NUM + 1];
+
+	TimerSprite *timer;
 
 	void moveForward();
 
@@ -47,7 +73,15 @@ private:
 
 	CCSprite* createNewItem();
 
+	CCSprite* createNewBlock();
+
 	void enable();
+
+	void gameover();
+
+	void correct(float offset);
+
+	void mistake(float offset);
 };
 
 #endif /* GAMESCENE_H_ */
