@@ -141,7 +141,8 @@ CCScene * FinishLayer::scene() {
 }
 
 void FinishLayer::onAgainItem(CCObject *object) {
-	CCDirector::sharedDirector()->replaceScene(GameLayer::scene());
+	CCDirector::sharedDirector()->replaceScene(
+			CCTransitionFadeDown::create(0.5f, GameLayer::scene()));
 }
 
 void FinishLayer::onShareItem(CCObject *object) {
@@ -149,5 +150,6 @@ void FinishLayer::onShareItem(CCObject *object) {
 }
 
 void FinishLayer::onBackItem(CCObject *object) {
-	CCDirector::sharedDirector()->replaceScene(MenuLayer::scene());
+	CCDirector::sharedDirector()->replaceScene(
+			CCTransitionFadeDown::create(0.5f, MenuLayer::scene()));
 }

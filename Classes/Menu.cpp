@@ -39,6 +39,12 @@ bool MenuLayer::init() {
 		soundtxt->setAnchorPoint(ccp(0.5, 0.5));
 		soundbg->addChild(soundtxt);
 		this->addChild(soundbg);
+		//标题
+		CCMenuItemImage *gamename = CCMenuItemImage::create(("name.png"),
+				("name.png"));
+		gamename->setAnchorPoint(ccp(0.5, 0.5));
+		gamename->setPosition(ccpp(0, 0.302));
+		this->addChild(gamename);
 
 		//开始游戏
 		CCMenuItemImage *startbg = CCMenuItemImage::create(("btn_big.png"),
@@ -138,7 +144,8 @@ void MenuLayer::onFeedbackItem(CCObject *object) {
 void MenuLayer::onStartItem(CCObject *object) {
 	CCMenuItemImage *bg = (CCMenuItemImage *) object;
 	effect::clickButton(bg);
-	CCDirector::sharedDirector()->replaceScene(GameLayer::scene());
+	CCDirector::sharedDirector()->replaceScene(
+			CCTransitionFadeDown::create(0.5f, GameLayer::scene()));
 }
 
 void MenuLayer::onRankingItem(CCObject *object) {

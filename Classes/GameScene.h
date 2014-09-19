@@ -11,7 +11,7 @@
 #include "Resources.h"
 
 #define ITEM_NUM 5
-class TimerSprite: public CCLabelTTF {
+class TimerSprite: public CCProgressTimer {
 public:
 	TimerSprite();
 
@@ -37,7 +37,8 @@ private:
 
 	SEL_CallFunc m_callfunc;
 
-	void decrease();
+	void timeout();
+
 	void initTimer();
 };
 

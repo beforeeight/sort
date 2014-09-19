@@ -48,17 +48,13 @@ bool GameLayer::init() {
 
 		/*-- 倒计时 --*/
 		CCSprite *timeBack = CCSprite::create("time_back.png");
-		CCSprite *timeFront = CCSprite::create("time_front.png");
 		timeBack->setAnchorPoint(ccp(0.5,0.5));
-		timeFront->setAnchorPoint(ccp(0.5,0.5));
 		timeBack->setPosition(ccpp(0,0.32));
-		timeFront->setPosition(ccp(timeBack->getContentSize().width/2,timeBack->getContentSize().height/2));
 		this->addChild(timeBack);
-		timeBack->addChild(timeFront);
 		timer->setAnchorPoint(ccp(0.5,0.5));
-		timer->setPosition(ccp(timeFront->getContentSize().width/2,timeFront->getContentSize().height/2));
+		timer->setPosition(ccp(timeBack->getContentSize().width/2,timeBack->getContentSize().height/2));
 		timer->setTarget(this,callfunc_selector(GameLayer::gameover));
-		timeFront->addChild(timer);
+		timeBack->addChild(timer);
 
 		/*-- 放瓶子 --*/
 		initPosition();
@@ -301,6 +297,7 @@ CCSprite* GameLayer::createNewItem() {
 	CCSprite* itemnew = CCSprite::create(s->getCString());
 	itemnew->setUserData((void *) i);
 	itemnew->setAnchorPoint(ccp(0.5, 0));
+	itemnew->runAction(CCFadeIn::create(1.0f));
 	this->addChild(itemnew);
 	return itemnew;
 }
@@ -317,7 +314,8 @@ void GameLayer::enable() {
 }
 
 void GameLayer::gameover() {
-	CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
+	LOCAL_CONTEXT->save();
+	CCDirector::sharedDirector()->replaceScene(CCTransitionFadeDown::create(0.5f, FinishLayer::scene()));
 }
 
 /*-- 计时器 --*/
@@ -329,10 +327,10 @@ TimerSprite::~TimerSprite() {
 }
 
 bool TimerSprite::init() {
-	if (CCLabelTTF::initWithString(
-			CCString::createWithFormat("%d", time)->getCString(),
-			LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size_time")->floatValue())) {
-
+	if (TimerSprite::initWithSprite(CCSprite::create("time_front.png"))) {
+		this->setType(kCCProgressTimerTypeBar);
+		this->setMidpoint(ccp(0, 0));
+		this->setBarChangeRate(ccp(1, 0));
 		return true;
 	} else {
 		return false;
@@ -353,9 +351,13 @@ void TimerSprite::initTimer() {
 }
 
 void TimerSprite::reset() {
-	this->unscheduleAllSelectors();
+	this->stopAllActions();
 	initTimer();
-	this->schedule(schedule_selector(TimerSprite::decrease), 1.0f, time, 1.0f);
+	this->runAction(
+			CCSequence::createWithTwoActions(
+					CCProgressFromTo::create(time, 100.0f, 0.0f),
+					CCCallFunc::create(this,
+							callfunc_selector(TimerSprite::timeout))));
 }
 
 void TimerSprite::start() {
@@ -370,15 +372,10 @@ void TimerSprite::pause() {
 	this->pauseSchedulerAndActions();
 }
 
-void TimerSprite::decrease() {
-	time--;
-	if (time == 0) {
-		if (m_listener && m_callfunc) {
-			(m_listener->*m_callfunc)();
-		}
-		return;
+void TimerSprite::timeout() {
+	if (m_listener && m_callfunc) {
+		(m_listener->*m_callfunc)();
 	}
-	this->setString(CCString::createWithFormat("%d", time)->getCString());
 }
 
 void TimerSprite::setTarget(CCObject * target, SEL_CallFunc function) {
