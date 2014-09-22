@@ -9,6 +9,7 @@
 #include "BgLayer.h"
 #include "Menu.h"
 #include "GameScene.h"
+#include "EffectUtils.h"
 
 FinishLayer::FinishLayer() {
 	// TODO Auto-generated constructor stub
@@ -141,15 +142,18 @@ CCScene * FinishLayer::scene() {
 }
 
 void FinishLayer::onAgainItem(CCObject *object) {
+	effect::clickButton((CCMenuItem*) object);
 	CCDirector::sharedDirector()->replaceScene(
 			CCTransitionFadeDown::create(0.5f, GameLayer::scene()));
 }
 
 void FinishLayer::onShareItem(CCObject *object) {
+	effect::clickButton((CCMenuItem*) object);
 	CCLog(LOCAL_RESOURCES->valueByKey("i18n_share")->getCString());
 }
 
 void FinishLayer::onBackItem(CCObject *object) {
+	effect::clickButton((CCMenuItem*) object);
 	CCDirector::sharedDirector()->replaceScene(
 			CCTransitionFadeDown::create(0.5f, MenuLayer::scene()));
 }

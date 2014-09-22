@@ -153,7 +153,6 @@ void LocalResources::loadResources() {
 	CCMenuItemFont::setFontName(this->valueByKey("font")->getCString());
 	CCMenuItemFont::setFontSize(this->valueByKey("font_size")->intValue());
 
-	CCLog("font size %d", this->valueByKey("font_size")->intValue());
 	/*-- 图片 --*/
 	CCTextureCache::sharedTextureCache()->addImage(("bg_back.png"));
 	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_on.png"));
