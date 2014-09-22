@@ -94,7 +94,8 @@ private:
 	void correct(float offset);
 
 	void mistake(float offset);
-
+	void resume();
+	void backMenu();
 };
 
 #endif /* GAMESCENE_H_ */

@@ -97,10 +97,16 @@ void GameLayer::correct(float offset) {
 			CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString());
 	moveForward();
 	lastItem->runAction(
+			CCSequence::create(CCMoveBy::create(0.3, ccpp(offset, 0)),
+					CCFadeOut::create(0.3),
+					CCCallFunc::create(lastItem,
+							callfunc_selector(CCSprite::removeFromParent)),
+					NULL));
+	lastBlock->runAction(
 			CCSequence::createWithTwoActions(
-					CCMoveBy::create(0.3, ccpp(offset, 0)),
-					CCFadeOut::create(0.3)));
-	lastBlock->removeFromParent();
+					CCMoveTo::create(0.3, ccpp(0, -0.5)),
+					CCCallFunc::create(lastBlock,
+							callfunc_selector(CCSprite::removeFromParent))));
 	timer->reset();
 }
 
@@ -119,7 +125,7 @@ void GameLayer::mistake(float offset) {
 }
 
 bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
-	if (LOCAL_CONTEXT->firstRun()) {
+	if (LOCAL_CONTEXT->firstRun()) { //第一次启动，点击取消帮助画面层
 		this->removeHelpLayer();
 		return false;
 	}
@@ -160,19 +166,27 @@ void GameLayer::onPauseItem(CCObject *object) {
 	}
 }
 
+void GameLayer::resume() {
+	CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(
+	TAG_LAYER_PAUSE);
+	timer->resume();
+	this->running = true;
+}
+
 void GameLayer::onResumeItem(CCObject *object) {
 	if (!running) {
-		effect::clickButton((CCMenuItem*) object);
-		CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(
-		TAG_LAYER_PAUSE);
-		timer->resume();
-		this->running = true;
+		effect::clickButton((CCMenuItem*) object, this,
+				callfunc_selector(GameLayer::resume));
 	}
 }
 
-void GameLayer::onBackItem(CCObject *object) {
-	effect::clickButton((CCMenuItem*) object);
+void GameLayer::backMenu() {
 	CCDirector::sharedDirector()->replaceScene(MenuLayer::scene());
+}
+
+void GameLayer::onBackItem(CCObject *object) {
+	effect::clickButton((CCMenuItem*) object, this,
+			callfunc_selector(GameLayer::backMenu));
 }
 
 CCLayer * GameLayer::createPauseButtonLayer() {
@@ -183,7 +197,7 @@ CCLayer * GameLayer::createPauseButtonLayer() {
 	CCSprite *pausetxt = CCSprite::create("btn_pause.png");
 	pausebg->setTarget(this, menu_selector(GameLayer::onPauseItem));
 	pausebg->setAnchorPoint(ccp(0, 1));
-	pausebg->setPosition(ccpp(-0.5, 0.5));
+	pausebg->setPosition(ccpp(-0.49, 0.49));
 	pausetxt->setPosition(
 			ccp(pausebg->getContentSize().width / 2,
 					pausebg->getContentSize().height / 2));
@@ -261,6 +275,7 @@ void GameLayer::moveForward() {
 	blocks[ITEM_NUM] = createNewBlock();
 	items[ITEM_NUM]->setPosition(items[ITEM_NUM - 1]->getPosition());
 	blocks[ITEM_NUM]->setPosition(blocks[ITEM_NUM - 1]->getPosition());
+	/* 向下移动的动画 */
 	for (unsigned int i = ITEM_NUM - 1; i > 0; i--) {
 		items[i]->runAction(
 				CCSequence::createWithTwoActions(
@@ -270,6 +285,7 @@ void GameLayer::moveForward() {
 		blocks[i]->runAction(
 				CCMoveTo::create(0.5f, blocks[i - 1]->getPosition()));
 	}
+	/* 重新设置数组存储顺序和前后遮挡排列顺序 */
 	for (unsigned int i = 0; i < ITEM_NUM; i++) {
 		items[i] = items[i + 1];
 		items[i]->setZOrder(ITEM_NUM - i);

@@ -194,7 +194,6 @@ void Context::save() {
 void Context::load() {
 	this->first = CCUserDefault::sharedUserDefault()->getBoolForKey("first",
 			true);
-	this->first = true;
 	this->sound = CCUserDefault::sharedUserDefault()->getBoolForKey("sound",
 			true);
 	this->highScore = CCUserDefault::sharedUserDefault()->getIntegerForKey(

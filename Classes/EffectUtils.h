@@ -18,6 +18,8 @@ void clickButtonSound(CCMenuItemImage *bg, CCSprite *txt);
 
 void clickButton(CCMenuItem *p_sender);
 
+void clickButton(CCMenuItem *p_sender, CCObject *target, SEL_CallFunc func);
+
 class EffectUtil: public CCObject {
 
 public:

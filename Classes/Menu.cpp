@@ -32,7 +32,7 @@ bool MenuLayer::init() {
 		}
 		soundbg->setTarget(soundtxt, menu_selector(MenuLayer::onSoundItem));
 		soundbg->setAnchorPoint(ccp(0, 1));
-		soundbg->setPosition(ccpp(-0.5, 0.5));
+		soundbg->setPosition(ccpp(-0.49, 0.49));
 		soundtxt->setPosition(
 				ccp(soundbg->getContentSize().width / 2,
 						soundbg->getContentSize().height / 2));

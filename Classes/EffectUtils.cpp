@@ -37,6 +37,17 @@ void effect::clickButton(CCMenuItem *p_sender) {
 					NULL));
 }
 
+void effect::clickButton(CCMenuItem *p_sender, CCObject *target,
+		SEL_CallFunc func) {
+	p_sender->setEnabled(false);
+	p_sender->runAction(
+			CCSequence::create(CCScaleBy::create(0.1f, 0.95f),
+					CCScaleBy::create(0.1f, 10.0 / 9.5f),
+					CCCallFunc::create(target, func),
+					CCCallFuncN::create(p_sender,
+							callfuncN_selector(EffectUtil::clickButtonFinish)),
+					NULL));
+}
 void EffectUtil::clickButtonFinish(CCNode *p_sender) {
 	((CCMenuItemImage *) p_sender)->setEnabled(true);
 }
