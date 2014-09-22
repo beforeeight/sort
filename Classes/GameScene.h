@@ -87,6 +87,8 @@ private:
 
 	CCSprite* createNewBlock();
 
+	void disable();
+
 	void enable();
 
 	void gameover();

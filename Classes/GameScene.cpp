@@ -101,6 +101,8 @@ void GameLayer::correct(float offset) {
 					CCFadeOut::create(0.3),
 					CCCallFunc::create(lastItem,
 							callfunc_selector(CCSprite::removeFromParent)),
+					CCCallFunc::create(this,
+							callfunc_selector(GameLayer::enable)),
 					NULL));
 	lastBlock->runAction(
 			CCSequence::createWithTwoActions(
@@ -112,7 +114,6 @@ void GameLayer::correct(float offset) {
 
 void GameLayer::mistake(float offset) {
 	CCSprite *lastItem = items[0];
-	this->running = false;
 	CCSprite *wrong = CCSprite::create("bg_wrong.png");
 	wrong->setAnchorPoint(ccp(0.5, 0));
 	wrong->setPosition(lastItem->getPosition() + ccpp(offset, 0));
@@ -131,6 +132,7 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 	}
 
 	if (running) {
+		disable();
 		CCSprite *lastItem = items[0];
 		long itemnum = (long) lastItem->getUserData();
 		//CCDirector::sharedDirector()->replaceScene(FinishLayer::scene());
@@ -159,7 +161,7 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 
 void GameLayer::onPauseItem(CCObject *object) {
 	if (running) {
-		this->running = false;
+		disable();
 		timer->pause();
 		effect::clickButton((CCMenuItem*) object);
 		createPauseLayer();
@@ -170,7 +172,7 @@ void GameLayer::resume() {
 	CCDirector::sharedDirector()->getRunningScene()->removeChildByTag(
 	TAG_LAYER_PAUSE);
 	timer->resume();
-	this->running = true;
+	enable();
 }
 
 void GameLayer::onResumeItem(CCObject *object) {
@@ -270,20 +272,18 @@ void GameLayer::createPauseLayer() {
 }
 
 void GameLayer::moveForward() {
-	running = false;
+	disable();
 	items[ITEM_NUM] = createNewItem();
 	blocks[ITEM_NUM] = createNewBlock();
 	items[ITEM_NUM]->setPosition(items[ITEM_NUM - 1]->getPosition());
 	blocks[ITEM_NUM]->setPosition(blocks[ITEM_NUM - 1]->getPosition());
+
 	/* 向下移动的动画 */
 	for (unsigned int i = ITEM_NUM - 1; i > 0; i--) {
 		items[i]->runAction(
-				CCSequence::createWithTwoActions(
-						CCMoveTo::create(0.5f, items[i - 1]->getPosition()),
-						CCCallFunc::create(this,
-								callfunc_selector(GameLayer::enable))));
+				CCMoveTo::create(0.3f, items[i - 1]->getPosition()));
 		blocks[i]->runAction(
-				CCMoveTo::create(0.5f, blocks[i - 1]->getPosition()));
+				CCMoveTo::create(0.3f, blocks[i - 1]->getPosition()));
 	}
 	/* 重新设置数组存储顺序和前后遮挡排列顺序 */
 	for (unsigned int i = 0; i < ITEM_NUM; i++) {
@@ -325,8 +325,14 @@ CCSprite* GameLayer::createNewBlock() {
 	return block;
 }
 
+void GameLayer::disable() {
+	this->running = false;
+	timer->pause();
+}
+
 void GameLayer::enable() {
 	this->running = true;
+	timer->resume();
 }
 
 void GameLayer::gameover() {
