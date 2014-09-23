@@ -89,6 +89,8 @@ CCScene * GameLayer::scene() {
 
 }
 
+#define OFFSET 0.32
+
 void GameLayer::correct(float offset) {
 	CCSprite *lastItem = items[0];
 	CCSprite *lastBlock = blocks[0];
@@ -97,30 +99,37 @@ void GameLayer::correct(float offset) {
 			CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString());
 	moveForward();
 	lastItem->runAction(
-			CCSequence::create(CCMoveBy::create(0.3, ccpp(offset, 0)),
-					CCFadeOut::create(0.3),
+			CCSequence::create(CCMoveBy::create(0.1, ccpp(offset, 0)),
+					CCFadeOut::create(0.1),
 					CCCallFunc::create(lastItem,
 							callfunc_selector(CCSprite::removeFromParent)),
 					NULL));
 	lastBlock->runAction(
 			CCSequence::createWithTwoActions(
-					CCMoveTo::create(0.3, ccpp(0, -0.5)),
+					CCMoveTo::create(0.1, ccpp(0, -0.5)),
 					CCCallFunc::create(lastBlock,
 							callfunc_selector(CCSprite::removeFromParent))));
 	timer->reset();
 }
 
-void GameLayer::mistake(float offset) {
-	CCSprite *lastItem = items[0];
-	CCSprite *wrong = CCSprite::create("bg_wrong.png");
+void GameLayer::showMistake(CCNode* p_sender, void* offsetCCNode) {
+	CCSprite* lastItem = items[0];
+	CCSprite* wrong = CCSprite::create("bg_wrong.png");
 	wrong->setAnchorPoint(ccp(0.5, 0));
-	wrong->setPosition(lastItem->getPosition() + ccpp(offset, 0));
-	this->addChild(wrong);
+	wrong->setPosition(
+			lastItem->getPosition() + ccpp(*((float* )offsetCCNode), 0));
+	this->addChild(wrong, 10);
+}
+
+void GameLayer::mistake(float offset) {
+	CCSprite* lastItem = items[0];
 	lastItem->runAction(
-			CCSequence::createWithTwoActions(
-					CCMoveBy::create(0.6, ccpp(offset, 0)),
+			CCSequence::create(CCMoveBy::create(0.3, ccpp(offset, 0)),
+					CCCallFuncND::create(this,
+							callfuncND_selector(GameLayer::showMistake),
+							&offset), CCDelayTime::create(0.5f),
 					CCCallFunc::create(this,
-							callfunc_selector(GameLayer::gameover))));
+							callfunc_selector(GameLayer::gameover)), NULL));
 }
 
 bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
@@ -286,6 +295,7 @@ void GameLayer::moveForward() {
 				CCMoveTo::create(0.1f, blocks[i - 1]->getPosition()));
 	}
 	/* 重新设置数组存储顺序和前后遮挡排列顺序 */
+	items[0]->setZOrder(ITEM_NUM + 1);
 	for (unsigned int i = 0; i < ITEM_NUM; i++) {
 		items[i] = items[i + 1];
 		items[i]->setZOrder(ITEM_NUM - i);
