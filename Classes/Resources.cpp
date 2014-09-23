@@ -87,9 +87,9 @@ const CCString* LocalResources::resoByKey(const char * key) {
 void LocalResources::prepareResPath() {
 	/*-- Add the Directory Base on Resolution --*/
 	string dir = resource.directory;
-	CCFileUtils::sharedFileUtils()->addSearchResolutionsOrder(
+	CCFileUtils::sharedFileUtils()->addSearchPath(
 			(dir + "/").c_str());
-	CCFileUtils::sharedFileUtils()->addSearchResolutionsOrder("global/");
+	CCFileUtils::sharedFileUtils()->addSearchPath("global/");
 
 	/*-- Add the Directory Base on Language --*/
 	ccLanguageType languageType =
@@ -101,10 +101,10 @@ void LocalResources::prepareResPath() {
 		lang_str = "en_us";
 
 	vector<std::string> pathVector =
-			CCFileUtils::sharedFileUtils()->getSearchResolutionsOrder();
+			CCFileUtils::sharedFileUtils()->getSearchPaths();
 	for (vector<string>::const_iterator it = pathVector.begin();
 			it < pathVector.end(); ++it) {
-		CCFileUtils::sharedFileUtils()->addSearchResolutionsOrder(
+		CCFileUtils::sharedFileUtils()->addSearchPath(
 				((*it) + lang_str + "/").c_str());
 	}
 }
