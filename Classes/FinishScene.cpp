@@ -155,7 +155,6 @@ void FinishLayer::onAgainItem(CCObject *object) {
 
 void FinishLayer::onShareItem(CCObject *object) {
 	effect::clickButton((CCMenuItem*) object);
-	CCLog(LOCAL_RESOURCES->valueByKey("i18n_share")->getCString());
 }
 
 void FinishLayer::onBackItem(CCObject *object) {
