@@ -73,6 +73,8 @@ public:
 
 	void playBgMusic();
 
+	void playEffect(const char * mp3);
+
 	void onSound();
 
 	void offSound();

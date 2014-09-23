@@ -21,6 +21,8 @@ MenuLayer::~MenuLayer() {
 bool MenuLayer::init() {
 	if (CCMenu::init()) {
 		Context *context = Context::sharedContext();
+		context->playBgMusic();
+
 		//声音
 		CCMenuItemImage *soundbg = CCMenuItemImage::create(("btn_small.png"),
 				("btn_small.png"));

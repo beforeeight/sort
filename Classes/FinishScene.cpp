@@ -10,6 +10,9 @@
 #include "Menu.h"
 #include "GameScene.h"
 #include "EffectUtils.h"
+#include "SimpleAudioEngine.h"
+
+using namespace CocosDenshion;
 
 FinishLayer::FinishLayer() {
 	// TODO Auto-generated constructor stub
@@ -22,6 +25,9 @@ FinishLayer::~FinishLayer() {
 
 bool FinishLayer::init() {
 	if (CCMenu::init()) {
+		/*-- 声音 --*/
+		SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+		LOCAL_CONTEXT->playEffect("gameover.mp3");
 		/*-- 文字 --*/
 		CCMenuItemImage *gameover = CCMenuItemImage::create("gameover.png",
 				"gameover.png");

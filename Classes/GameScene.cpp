@@ -38,7 +38,7 @@ bool GameLayer::init() {
 		setAnchorPoint(ccp(0.5f, 0.5f));
 		this->setContentSize(s);
 		setPosition(ccp(s.width / 2, s.height / 2));
-
+		LOCAL_CONTEXT->playBgMusic();
 		/*-- 计分 --*/
 		CCLabelTTF *score = CCLabelTTF::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size")->floatValue());
 		score->setColor(LOCAL_CONTEXT->getFontColor());
@@ -130,6 +130,7 @@ void GameLayer::mistake(float offset) {
 							&offset), CCDelayTime::create(0.5f),
 					CCCallFunc::create(this,
 							callfunc_selector(GameLayer::gameover)), NULL));
+	LOCAL_CONTEXT->playEffect("wrong.mp3");
 }
 
 bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
@@ -146,6 +147,7 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 		CCSize winsize = CCDirector::sharedDirector()->getWinSize();
 		CCPoint location = pTouch->getLocation();
 		if (location.x < winsize.width / 2) {
+			LOCAL_CONTEXT->playEffect("left.mp3");
 			//瓶子 6-10
 			if (itemnum >= 6) {
 				correct(-0.32);
@@ -153,6 +155,7 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 				mistake(-0.32);
 			}
 		} else {
+			LOCAL_CONTEXT->playEffect("right.mp3");
 			//罐子 1-5
 			if (itemnum <= 5) {
 				correct(0.32);

@@ -177,7 +177,6 @@ Context * Context::sharedContext() {
 	static Context* res = NULL;
 	if (!res) {
 		res = new Context();
-		res->playBgMusic();
 	}
 	return res;
 }
@@ -203,6 +202,12 @@ void Context::playBgMusic() {
 	if (this->isSound()
 			&& !SimpleAudioEngine::sharedEngine()->isBackgroundMusicPlaying()) {
 		SimpleAudioEngine::sharedEngine()->playBackgroundMusic("bgm.mp3", true);
+	}
+}
+
+void Context::playEffect(const char * mp3) {
+	if (this->isSound()) {
+		SimpleAudioEngine::sharedEngine()->playEffect(mp3);
 	}
 }
 
