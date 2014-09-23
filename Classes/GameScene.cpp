@@ -101,8 +101,6 @@ void GameLayer::correct(float offset) {
 					CCFadeOut::create(0.3),
 					CCCallFunc::create(lastItem,
 							callfunc_selector(CCSprite::removeFromParent)),
-					CCCallFunc::create(this,
-							callfunc_selector(GameLayer::enable)),
 					NULL));
 	lastBlock->runAction(
 			CCSequence::createWithTwoActions(
@@ -277,13 +275,15 @@ void GameLayer::moveForward() {
 	blocks[ITEM_NUM] = createNewBlock();
 	items[ITEM_NUM]->setPosition(items[ITEM_NUM - 1]->getPosition());
 	blocks[ITEM_NUM]->setPosition(blocks[ITEM_NUM - 1]->getPosition());
-
 	/* 向下移动的动画 */
 	for (unsigned int i = ITEM_NUM - 1; i > 0; i--) {
 		items[i]->runAction(
-				CCMoveTo::create(0.3f, items[i - 1]->getPosition()));
+				CCSequence::createWithTwoActions(
+						CCMoveTo::create(0.1f, items[i - 1]->getPosition()),
+						CCCallFunc::create(this,
+								callfunc_selector(GameLayer::enable))));
 		blocks[i]->runAction(
-				CCMoveTo::create(0.3f, blocks[i - 1]->getPosition()));
+				CCMoveTo::create(0.1f, blocks[i - 1]->getPosition()));
 	}
 	/* 重新设置数组存储顺序和前后遮挡排列顺序 */
 	for (unsigned int i = 0; i < ITEM_NUM; i++) {
