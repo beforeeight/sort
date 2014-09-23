@@ -124,7 +124,7 @@ void GameLayer::showMistake(CCNode* p_sender, void* offsetCCNode) {
 void GameLayer::mistake(float offset) {
 	CCSprite* lastItem = items[0];
 	lastItem->runAction(
-			CCSequence::create(CCMoveBy::create(0.3, ccpp(offset, 0)),
+			CCSequence::create(CCMoveBy::create(0.1, ccpp(offset, 0)),
 					CCCallFuncND::create(this,
 							callfuncND_selector(GameLayer::showMistake),
 							&offset), CCDelayTime::create(0.5f),
