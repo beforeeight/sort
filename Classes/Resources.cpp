@@ -85,34 +85,23 @@ const CCString* LocalResources::resoByKey(const char * key) {
 }
 
 void LocalResources::prepareResPath() {
-	/*-- Add the Directory Base on Resolution --*/
-	vector<string> resPaths;
-
-	string dir = resource.directory;
-	//CCFileUtils::sharedFileUtils()->addSearchPath(dir.c_str());
-	//CCFileUtils::sharedFileUtils()->addSearchPath("global");
-	resPaths.push_back(dir.c_str());
-	resPaths.push_back("global");
-
-	/*-- Add the Directory Base on Language --*/
+	CCFileUtils::sharedFileUtils()->purgeCachedEntries();
+	/*-- Add the Search Directory --*/
 	ccLanguageType languageType =
 			CCApplication::sharedApplication()->getCurrentLanguage();
-	std::string lang_str;
-	if (kLanguageChinese == languageType)
-		lang_str = "zh_cn";
-	else
-		lang_str = "en_us";
-
-//	vector<std::string> pathVector =
-//			CCFileUtils::sharedFileUtils()->getSearchPaths();
-	vector<string>::const_iterator itend = resPaths.end();
-	for (vector<string>::const_iterator it = resPaths.begin(); it < itend;
-			++it) {
-//		CCFileUtils::sharedFileUtils()->addSearchPath(
-//				((*it) + "/" + lang_str).c_str());
-		resPaths.push_back(((*it) + "/" + lang_str).c_str());
+	string lang;
+	if (kLanguageChinese == languageType) {
+		lang = "zh_cn";
+	} else {
+		lang = "en_us";
 	}
-	CCFileUtils::sharedFileUtils()->setSearchPaths(resPaths);
+	CCFileUtils::sharedFileUtils()->addSearchPath(lang.c_str());
+	CCFileUtils::sharedFileUtils()->addSearchPath("global");
+
+	/*-- Add the Directory Base on Resolution --*/
+	string dir = resource.directory;
+	CCFileUtils::sharedFileUtils()->addSearchResolutionsOrder(
+			(dir + "/").c_str());
 }
 
 void LocalResources::loadConf() {
@@ -165,8 +154,8 @@ void LocalResources::loadResources() {
 	CCTextureCache::sharedTextureCache()->addImage(("btn_sound_off.png"));
 
 	/*-- 声音 --*/
-	//SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
-	//SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
+//SimpleAudioEngine::sharedEngine()->preloadBackgroundMusic("gameover.mp3");
+//SimpleAudioEngine::sharedEngine()->preloadEffect("jump.mp3");
 	/*-- 动画 --*/
 
 }
