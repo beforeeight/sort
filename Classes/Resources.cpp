@@ -86,10 +86,10 @@ const CCString* LocalResources::resoByKey(const char * key) {
 
 void LocalResources::prepareResPath() {
 	/*-- Add the Directory Base on Resolution --*/
+	//vector<string> resPaths;
 	string dir = resource.directory;
-	CCFileUtils::sharedFileUtils()->addSearchPath(
-			(dir + "/").c_str());
-	CCFileUtils::sharedFileUtils()->addSearchPath("global/");
+	CCFileUtils::sharedFileUtils()->addSearchPath(dir.c_str());
+	CCFileUtils::sharedFileUtils()->addSearchPath("global");
 
 	/*-- Add the Directory Base on Language --*/
 	ccLanguageType languageType =
@@ -105,7 +105,7 @@ void LocalResources::prepareResPath() {
 	for (vector<string>::const_iterator it = pathVector.begin();
 			it < pathVector.end(); ++it) {
 		CCFileUtils::sharedFileUtils()->addSearchPath(
-				((*it) + lang_str + "/").c_str());
+				((*it) + "/" + lang_str).c_str());
 	}
 }
 
