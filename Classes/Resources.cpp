@@ -86,10 +86,13 @@ const CCString* LocalResources::resoByKey(const char * key) {
 
 void LocalResources::prepareResPath() {
 	/*-- Add the Directory Base on Resolution --*/
-	//vector<string> resPaths;
+	vector<string> resPaths;
+
 	string dir = resource.directory;
-	CCFileUtils::sharedFileUtils()->addSearchPath(dir.c_str());
-	CCFileUtils::sharedFileUtils()->addSearchPath("global");
+	//CCFileUtils::sharedFileUtils()->addSearchPath(dir.c_str());
+	//CCFileUtils::sharedFileUtils()->addSearchPath("global");
+	resPaths.push_back(dir.c_str());
+	resPaths.push_back("global");
 
 	/*-- Add the Directory Base on Language --*/
 	ccLanguageType languageType =
@@ -100,13 +103,16 @@ void LocalResources::prepareResPath() {
 	else
 		lang_str = "en_us";
 
-	vector<std::string> pathVector =
-			CCFileUtils::sharedFileUtils()->getSearchPaths();
-	for (vector<string>::const_iterator it = pathVector.begin();
-			it < pathVector.end(); ++it) {
-		CCFileUtils::sharedFileUtils()->addSearchPath(
-				((*it) + "/" + lang_str).c_str());
+//	vector<std::string> pathVector =
+//			CCFileUtils::sharedFileUtils()->getSearchPaths();
+	vector<string>::const_iterator itend = resPaths.end();
+	for (vector<string>::const_iterator it = resPaths.begin(); it < itend;
+			++it) {
+//		CCFileUtils::sharedFileUtils()->addSearchPath(
+//				((*it) + "/" + lang_str).c_str());
+		resPaths.push_back(((*it) + "/" + lang_str).c_str());
 	}
+	CCFileUtils::sharedFileUtils()->setSearchPaths(resPaths);
 }
 
 void LocalResources::loadConf() {
