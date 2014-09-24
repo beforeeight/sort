@@ -20,7 +20,7 @@ LocalResources::LocalResources() {
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	CCSize frameSize = pEGLView->getFrameSize();
 	if (frameSize.width / frameSize.height > ASPECT_RATIO) {
-		resource = ipadResource;
+		resource = iphoneResource;
 	} else {
 		resource = iphoneResource;
 	}
