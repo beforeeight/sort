@@ -17,8 +17,8 @@ typedef struct tagResource {
 	char directory[100];
 } Resource;
 
-extern const Resource iphoneResource;
-extern const Resource ipadResource;
+extern const Resource iphone5Resource;
+extern const Resource iphone4Resource;
 
 class LocalResources {
 

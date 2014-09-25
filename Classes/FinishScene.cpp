@@ -86,7 +86,7 @@ bool FinishLayer::init() {
 		againbg->setTarget(againbg, menu_selector(FinishLayer::onAgainItem));
 		CCMenuItemFont *againtxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_again")->getCString());
 		againbg->setAnchorPoint(ccp(0.5, 0.5));
-		againbg->setPosition(ccpp(0, -0.07));
+		againbg->setPosition(ccpp(0, -0.03));
 		againtxt->setPosition(
 				ccp(againbg->getContentSize().width / 2,
 						againbg->getContentSize().height / 2));
@@ -101,7 +101,7 @@ bool FinishLayer::init() {
 		sharebg->setTarget(sharebg, menu_selector(FinishLayer::onShareItem));
 		CCMenuItemFont *sharetxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_share")->getCString());
 		sharebg->setAnchorPoint(ccp(0.5, 0.5));
-		sharebg->setPosition(ccpp(0, -0.19));
+		sharebg->setPosition(ccpp(0, -0.15));
 		sharetxt->setPosition(
 				ccp(sharebg->getContentSize().width / 2,
 						sharebg->getContentSize().height / 2));
@@ -116,7 +116,7 @@ bool FinishLayer::init() {
 		backbg->setTarget(this, menu_selector(FinishLayer::onBackItem));
 		CCMenuItemFont *backtxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_back")->getCString());
 		backbg->setAnchorPoint(ccp(0.5, 0.5));
-		backbg->setPosition(ccpp(0, -0.31));
+		backbg->setPosition(ccpp(0, -0.27));
 		backtxt->setPosition(
 				ccp(backbg->getContentSize().width / 2,
 						backbg->getContentSize().height / 2));

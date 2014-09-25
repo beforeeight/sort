@@ -43,7 +43,7 @@ bool GameLayer::init() {
 		CCLabelTTF *score = CCLabelTTF::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size")->floatValue());
 		score->setColor(LOCAL_CONTEXT->getFontColor());
 		score->setAnchorPoint(ccp(1, 1));
-		score->setPosition(ccpp(0.45,0.48));
+		score->setPosition(ccpp(0.45,0.37));
 		this->addChild(score,0,TAG_SCORE);
 
 		/*-- 倒计时 --*/
@@ -209,7 +209,7 @@ CCLayer * GameLayer::createPauseButtonLayer() {
 	CCSprite *pausetxt = CCSprite::create("btn_pause.png");
 	pausebg->setTarget(this, menu_selector(GameLayer::onPauseItem));
 	pausebg->setAnchorPoint(ccp(0, 1));
-	pausebg->setPosition(ccpp(-0.49, 0.49));
+	pausebg->setPosition(ccpp(-0.49, 0.37));
 	pausetxt->setPosition(
 			ccp(pausebg->getContentSize().width / 2,
 					pausebg->getContentSize().height / 2));

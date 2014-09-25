@@ -34,7 +34,7 @@ bool MenuLayer::init() {
 		}
 		soundbg->setTarget(soundtxt, menu_selector(MenuLayer::onSoundItem));
 		soundbg->setAnchorPoint(ccp(0, 1));
-		soundbg->setPosition(ccpp(-0.49, 0.49));
+		soundbg->setPosition(ccpp(-0.49, 0.37));
 		soundtxt->setPosition(
 				ccp(soundbg->getContentSize().width / 2,
 						soundbg->getContentSize().height / 2));
@@ -45,7 +45,7 @@ bool MenuLayer::init() {
 		CCMenuItemImage *gamename = CCMenuItemImage::create(("name.png"),
 				("name.png"));
 		gamename->setAnchorPoint(ccp(0.5, 0.5));
-		gamename->setPosition(ccpp(0, 0.302));
+		gamename->setPosition(ccpp(0, 0.19));
 		this->addChild(gamename);
 
 		//开始游戏
@@ -54,7 +54,7 @@ bool MenuLayer::init() {
 		startbg->setTarget(startbg, menu_selector(MenuLayer::onStartItem));
 		CCMenuItemFont *starttxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_start")->getCString());
 		startbg->setAnchorPoint(ccp(0.5, 0.5));
-		startbg->setPosition(ccpp(0, 0));
+		startbg->setPosition(ccpp(0, 0.02));
 		starttxt->setPosition(
 				ccp(startbg->getContentSize().width / 2,
 						startbg->getContentSize().height / 2));
@@ -70,7 +70,7 @@ bool MenuLayer::init() {
 				menu_selector(MenuLayer::onRankingItem));
 		CCMenuItemFont *rankingtxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_ranking")->getCString());
 		rankingbg->setAnchorPoint(ccp(0.5, 0.5));
-		rankingbg->setPosition(ccpp(0, -0.12));
+		rankingbg->setPosition(ccpp(0, -0.09));
 		rankingtxt->setPosition(
 				ccp(rankingbg->getContentSize().width / 2,
 						rankingbg->getContentSize().height / 2));
@@ -85,7 +85,7 @@ bool MenuLayer::init() {
 		morebg->setTarget(morebg, menu_selector(MenuLayer::onMoreItem));
 		CCMenuItemFont *moretxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_more")->getCString());
 		morebg->setAnchorPoint(ccp(0.5, 0.5));
-		morebg->setPosition(ccpp(0, -0.24));
+		morebg->setPosition(ccpp(0, -0.20));
 		moretxt->setPosition(
 				ccp(morebg->getContentSize().width / 2,
 						morebg->getContentSize().height / 2));
@@ -101,7 +101,7 @@ bool MenuLayer::init() {
 				menu_selector(MenuLayer::onFeedbackItem));
 		CCMenuItemFont *feedbacktxt = CCMenuItemFont::create(LOCAL_RESOURCES->valueByKey("i18n_feedback")->getCString());
 		feedbacktbg->setAnchorPoint(ccp(0.5, 0.5));
-		feedbacktbg->setPosition(ccpp(0, -0.36));
+		feedbacktbg->setPosition(ccpp(0, -0.31));
 		feedbacktxt->setPosition(
 				ccp(feedbacktbg->getContentSize().width / 2,
 						feedbacktbg->getContentSize().height / 2));
