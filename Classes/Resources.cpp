@@ -12,7 +12,7 @@ using namespace std;
 using namespace CocosDenshion;
 
 const Resource iphoneResource = { cocos2d::CCSizeMake(640, 1136), "iphone" };
-const Resource ipadResource = { cocos2d::CCSizeMake(640, 960), "ipad" };
+const Resource ipadResource = { cocos2d::CCSizeMake(640, 960), "iphone" };
 
 #define ASPECT_RATIO (640.0f/960.f+640.0f/1136.0f)/2
 
@@ -20,7 +20,7 @@ LocalResources::LocalResources() {
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	CCSize frameSize = pEGLView->getFrameSize();
 	if (frameSize.width / frameSize.height > ASPECT_RATIO) {
-		resource = iphoneResource;
+		resource = ipadResource;
 	} else {
 		resource = iphoneResource;
 	}
