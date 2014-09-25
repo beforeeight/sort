@@ -15,10 +15,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	CCDirector* pDirector = CCDirector::sharedDirector();
 	CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 	pDirector->setOpenGLView(pEGLView);
-	pEGLView->setDesignResolutionSize(
-	LOCAL_RESOLUTION.width,
-	LOCAL_RESOLUTION.height,
-	kResolutionNoBorder);
+	LocalResources::sharedResources();
 	// turn on display FPS
 	pDirector->setDisplayStats(false);
 	// set FPS. the default value is 1.0/60 if you don't call this

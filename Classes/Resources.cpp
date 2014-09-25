@@ -23,10 +23,17 @@ LocalResources::LocalResources() {
 	CCSize frameSize = pEGLView->getFrameSize();
 	if (frameSize.width / frameSize.height > ASPECT_RATIO_PAD_4) {
 		resource = ipadResource;
+		CCEGLView::sharedOpenGLView()->setDesignResolutionSize(
+				resource.size.width, resource.size.height,
+				kResolutionFixedHeight);
 	} else if (frameSize.width / frameSize.height > ASPECT_RATIO_4_5) {
 		resource = iphone4Resource;
+		CCEGLView::sharedOpenGLView()->setDesignResolutionSize(
+				resource.size.width, resource.size.height, kResolutionNoBorder);
 	} else {
 		resource = iphone5Resource;
+		CCEGLView::sharedOpenGLView()->setDesignResolutionSize(
+				resource.size.width, resource.size.height, kResolutionNoBorder);
 	}
 	prepareResPath();
 	loadConf();
