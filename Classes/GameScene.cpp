@@ -40,8 +40,9 @@ bool GameLayer::init() {
 		setPosition(ccp(s.width / 2, s.height / 2));
 		LOCAL_CONTEXT->playBgMusic();
 		/*-- 计分 --*/
-		CCLabelTTF *score = CCLabelTTF::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size")->floatValue());
-		score->setColor(LOCAL_CONTEXT->getFontColor());
+		CCLabelBMFont *score=CCLabelBMFont::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),"score_font.fnt");
+		//CCLabelTTF *score = CCLabelTTF::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size")->floatValue());
+		//score->setColor(LOCAL_CONTEXT->getFontColor());
 		score->setAnchorPoint(ccp(1, 1));
 		score->setPosition(ccpp(0.45,0.42));
 		this->addChild(score,0,TAG_SCORE);
@@ -95,7 +96,7 @@ void GameLayer::correct(float offset) {
 	CCSprite *lastItem = items[0];
 	CCSprite *lastBlock = blocks[0];
 	LOCAL_CONTEXT->increaseScore();
-	((CCLabelTTF*) this->getChildByTag(TAG_SCORE))->setString(
+	((CCLabelBMFont*) this->getChildByTag(TAG_SCORE))->setString(
 			CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString());
 	moveForward();
 	lastItem->runAction(

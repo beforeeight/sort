@@ -12,7 +12,6 @@ using namespace effect;
 
 void effect::clickButtonSound(CCMenuItemImage *bg, CCSprite *txt) {
 	Context *context = Context::sharedContext();
-	context->playEffect("click.mp3");
 	if (context->isSound()) {
 		context->offSound();
 		txt->setTexture(
@@ -30,6 +29,7 @@ void effect::clickButtonSound(CCMenuItemImage *bg, CCSprite *txt) {
 
 void effect::clickButton(CCMenuItem *p_sender) {
 	p_sender->setEnabled(false);
+	LOCAL_CONTEXT->playEffect("click.mp3");
 	p_sender->runAction(
 			CCSequence::create(CCScaleBy::create(0.1f, 0.95f),
 					CCScaleBy::create(0.1f, 10.0 / 9.5f),

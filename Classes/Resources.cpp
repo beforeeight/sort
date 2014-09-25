@@ -262,7 +262,7 @@ unsigned int Context::increaseScore() {
 
 void Context::clearScore() {
 	score = 0;
-	newrecord = true;
+	newrecord = false;
 }
 
 unsigned int Context::getScore() const {

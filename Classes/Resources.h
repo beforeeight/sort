@@ -112,4 +112,6 @@ private:
 
 #define ccpp(__X__,__Y__) cocos2d::CCPointMake(((float)(__X__))*LOCAL_RESOLUTION.width, ((float)(__Y__))*LOCAL_RESOLUTION.height)
 
+#define ccpw(__X__,__Y__) cocos2d::CCPointMake(((float)(__X__))*CCEGLView::sharedOpenGLView()->getFrameSize().width, ((float)(__Y__))*CCEGLView::sharedOpenGLView()->getVisibleSize().height)
+
 #endif
