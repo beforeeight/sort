@@ -45,7 +45,7 @@ bool MenuLayer::init() {
 		CCMenuItemImage *gamename = CCMenuItemImage::create(("name.png"),
 				("name.png"));
 		gamename->setAnchorPoint(ccp(0.5, 0.5));
-		gamename->setPosition(ccpp(0, 0.24));
+		gamename->setPosition(ccpp(0, 0.23));
 		this->addChild(gamename);
 
 		//开始游戏
