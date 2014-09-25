@@ -3,33 +3,33 @@
 <plist version="1.0">  
     <dict>
         <key>i18n_start</key>
-        <string>Start Game</string>
+        <string>开始游戏</string>
         
 		<key>i18n_ranking</key>
-        <string>Ranking</string>
+        <string>排行榜</string>
         
         <key>i18n_more</key>
-        <string>More Games</string>
+        <string>更多游戏</string>
         
         <key>i18n_feedback</key>
-        <string>Feedback</string>
+        <string>意见反馈</string>
         
         <key>i18n_resume</key>
-        <string>Resume</string>
+        <string>继续游戏</string>
         
         <key>i18n_back</key>
-        <string>Back Menu</string>
+        <string>返回菜单</string>
         
         <key>i18n_score</key>
-        <string>Score:</string>
+        <string>当前分数：</string>
         
         <key>i18n_highscore</key>
-        <string>High Score:</string>
+        <string>最高分数：</string>
         
         <key>i18n_again</key>
-        <string>Try Again</string>
+        <string>再玩一次</string>
         
         <key>i18n_share</key>
-        <string>Share</string>
+        <string>分享</string>
     </dict>
 </plist>

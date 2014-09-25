@@ -43,7 +43,7 @@ bool GameLayer::init() {
 		CCLabelTTF *score = CCLabelTTF::create(CCString::createWithFormat("%d", LOCAL_CONTEXT->getScore())->getCString(),LOCAL_RESOURCES->valueByKey("font")->getCString(),LOCAL_RESOURCES->valueByKey("font_size")->floatValue());
 		score->setColor(LOCAL_CONTEXT->getFontColor());
 		score->setAnchorPoint(ccp(1, 1));
-		score->setPosition(ccpp(0.5,0.5));
+		score->setPosition(ccpp(0.45,0.48));
 		this->addChild(score,0,TAG_SCORE);
 
 		/*-- 倒计时 --*/
