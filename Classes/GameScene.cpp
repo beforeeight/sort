@@ -164,10 +164,9 @@ bool GameLayer::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent) {
 				mistake(0.32);
 			}
 		}
-		return true;
-	} else {
-		return false;
 	}
+	return false;
+
 }
 
 void GameLayer::onPauseItem(CCObject *object) {
