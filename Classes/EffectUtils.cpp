@@ -24,6 +24,7 @@ void effect::clickButtonSound(CCMenuItemImage *bg, CCSprite *txt) {
 				CCTextureCache::sharedTextureCache()->textureForKey(
 						"btn_sound_on.png"));
 	}
+	context->save();
 	effect::clickButton(bg);
 }
 
